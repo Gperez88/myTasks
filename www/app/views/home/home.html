@@ -1,0 +1,15 @@
+<ion-nav-bar class="bar-positive">
+  <ion-nav-back-button class="button-clear button-icon icon ion-ios-arrow-back"></ion-nav-back-button>
+  <!-- <h1 class="title">My Tasks</h1> -->
+</ion-nav-bar>
+
+<ion-tabs class="tabs-icon-top tabs-positive">
+
+  <ion-tab title="To do" icon="ion-android-list" ui-sref="home.todo">
+    <ion-nav-view name="tab-todo" animation="slide-left-right"></ion-nav-view>
+  </ion-tab>
+
+  <ion-tab title="Done" icon="ion-android-checkbox-outline" ui-sref="home.done">
+    <ion-nav-view name="tab-done" animation="slide-left-right"></ion-nav-view>
+  </ion-tab>
+</ion-tabs>

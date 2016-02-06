@@ -1,4 +1,4 @@
-angular.module('myTasks', ['ionic'])
+angular.module('myTasksApp', ['ionic'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -22,15 +22,61 @@ angular.module('myTasks', ['ionic'])
   $stateProvider
 
     .state('home',{
+      abstract:true,
       url:"/home",
-      templateUrl: "app/home/home.html"
+      templateUrl: "app/views/home/home.html"
+    })
+
+    .state('home.todo',{
+      url:"/todo",
+      views: {
+        "tab-todo":{
+          templateUrl:"app/views/task/todo.html"
+        }
+      }
+    })
+
+    .state('home.done',{
+      url:"/done",
+      views: {
+        "tab-done":{
+          templateUrl:"app/views/task/done.html"
+        }
+      }
+    })
+
+    .state('home.todo_details',{
+      url:"/todo_details/:id",
+      views: {
+        "tab-todo":{
+          templateUrl:"app/views/task/details.html"
+        }
+      }
+    })
+
+    .state('home.done_details',{
+      url:"/done_details/:id",
+      views: {
+        "tab-done":{
+          templateUrl:"app/views/task/details.html"
+        }
+      }
     })
 
     .state('app',{
+      abstract:true,
       url:"/app",
-      templateUrl:"app/layout/menu-layout.html"
+      templateUrl:"app/views/layout/menu-layout.html"
+    })
+
+    .state('app.login',{
+      url:"/login",
+      views: {
+        "mainContent":{
+          templateUrl:"app/views/login/login.html"
+        }
+      }
     });
 
-    //if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/app');
+    $urlRouterProvider.otherwise('/app/login');
 });
