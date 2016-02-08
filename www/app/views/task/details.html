@@ -1,4 +1,30 @@
-<ion-view title="Details" ng-controller="taskDetailsCtrl">
+<ion-view title="Details" ng-controller="taskDetailsCtrl as vm">
 	<ion-content class="has-header">
-  </ion-content>
+		<div class="card">
+			<div class="item item-divider item-stable">
+				Task
+			</div>
+			<div class="item">
+				objectId: {{vm.task.objectId}}
+			</div>
+			<div class="item">
+				name: {{vm.task.name}}
+			</div>
+			<div class="item">
+				done: {{vm.task.done}}
+			</div>
+		</div>
+
+		<div class="card">
+			<div class="item item-divider item-stable">
+				Time
+			</div>
+			<div class="item">
+				createdAt: {{vm.task.createdAt | date: shortTime}}
+			</div>
+			<div class="item">
+				updatedAt: {{vm.task.updatedAt | date: shortTime}}
+			</div>
+		</div>
+	</ion-content>
 </ion-view>

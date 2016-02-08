@@ -1,6 +1,6 @@
-angular.module('myTasksApp', ['ionic'])
+angular.module('myTasksApp', ['ionic', 'angular-cache'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, CacheFactory) {
   $ionicPlatform.ready(function() {
     if(window.cordova && window.cordova.plugins.Keyboard) {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -15,53 +15,23 @@ angular.module('myTasksApp', ['ionic'])
     if(window.StatusBar) {
       StatusBar.styleDefault();
     }
+
+    // Only to demonstration.
+    CacheFactory('taskCache', {storageMode: 'localStorage', maxAge: 10000, deleteOnExpire: 'aggressive'});
+    CacheFactory('todoTaskCache', {storageMode: 'localStorage', maxAge: 10000, deleteOnExpire: 'aggressive'});
+    CacheFactory('doneTaskCache', {storageMode: 'localStorage', maxAge: 10000, deleteOnExpire: 'aggressive'});
   });
 })
 
 .config(function($stateProvider, $urlRouterProvider){
   $stateProvider
 
-    .state('home',{
-      abstract:true,
-      url:"/home",
-      templateUrl: "app/views/home/home.html"
-    })
-
-    .state('home.todo',{
-      url:"/todo",
-      views: {
-        "tab-todo":{
-          templateUrl:"app/views/task/todo.html"
-        }
-      }
-    })
-
-    .state('home.done',{
-      url:"/done",
-      views: {
-        "tab-done":{
-          templateUrl:"app/views/task/done.html"
-        }
-      }
-    })
-
-    .state('home.todo_details',{
-      url:"/todo_details/:id",
-      views: {
-        "tab-todo":{
-          templateUrl:"app/views/task/details.html"
-        }
-      }
-    })
-
-    .state('home.done_details',{
-      url:"/done_details/:id",
-      views: {
-        "tab-done":{
-          templateUrl:"app/views/task/details.html"
-        }
-      }
-    })
+    // .state('home',{
+    //   abstract:true,
+    //   url:"/home",
+    //   templateUrl: "app/views/home/home.html"
+    // })
+    //
 
     .state('app',{
       abstract:true,
@@ -74,6 +44,24 @@ angular.module('myTasksApp', ['ionic'])
       views: {
         "mainContent":{
           templateUrl:"app/views/login/login.html"
+        }
+      }
+    })
+
+    .state('app.task',{
+      url:"/task",
+      views: {
+        "mainContent":{
+          templateUrl:"app/views/task/task.html"
+        }
+      }
+    })
+
+    .state('app.task_details',{
+      url:"/task_details/:id",
+      views: {
+        "mainContent":{
+          templateUrl:"app/views/task/details.html"
         }
       }
     });

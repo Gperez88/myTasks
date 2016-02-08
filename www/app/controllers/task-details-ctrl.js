@@ -1,11 +1,16 @@
 (function(){
   'use strict';
 
-  angular.module('myTasksApp').controller('taskDetailsCtrl', ['$stateParams', taskDetailsCtrl]);
+  angular.module('myTasksApp').controller('taskDetailsCtrl', ['$stateParams', 'myTasksApi', taskDetailsCtrl]);
 
-  function taskDetailsCtrl($stateParams) {
+  function taskDetailsCtrl($stateParams, myTasksApi) {
     var vm = this;
 
-    console.log("$stateParams", $stateParams);
+    vm.taskId = $stateParams.id;
+
+    myTasksApi.getTasks().then(function(data){
+      var task = _.find(data, { "objectId": vm.taskId });
+      vm.task = task;
+    });
   }
 })();

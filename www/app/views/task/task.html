@@ -1,0 +1,26 @@
+<ion-view title="Task" ng-controller="taskCtrl as vm">
+	<ion-content class="has-header">
+		<ion-refresher
+			pulling-text="Pull to refresh..."
+			on-refresh="vm.loadList(true)">
+		</ion-refresher>
+    <div class="list">
+      <div class="item item-divider item-stable">
+        Todo
+      </div>
+			<a class="item item-icon-right" ng-repeat="todoTask in vm.todoTasks"
+				ng-click="vm.selectTask(todoTask.objectId)">
+				{{todoTask.name}}
+				<i class="icon ion-chevron-right icon-accessory"></i>
+			</a>
+      <div class="item item-divider item-stable">
+        Done
+      </div>
+      <a class="item item-icon-right" ng-repeat="doneTask in vm.doneTasks"
+        ng-click="vm.selectTask(doneTask.objectId)">
+        {{doneTask.name}}
+        <i class="icon ion-chevron-right icon-accessory"></i>
+      </a>
+    </div>
+  </ion-content>
+</ion-view>

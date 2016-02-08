@@ -1,22 +1,67 @@
 (function(){
   'use strict';
 
-  angular.module('myTasksApp').factory('myTasksApi',[myTasksApi]);
+  angular.module('myTasksApp').factory('myTasksApi', ['$http', '$q', '$ionicLoading', myTasksApi]);
 
-  function myTasksApi(){
+  function myTasksApi($http, $q, $ionicLoading){
 
-    var doneTasks = JSON.parse('[{"createdAt": "2016-02-06T12:56:35.055Z", "done": true, "name": "preparar el desayuno", "updatedAt": "2016-02-06T12:56:37.047Z","objectId": "almSN8nIIh"},{"createdAt": "2016-02-06T12:56:21.610Z","done": true,"name": "sacar al perro","updatedAt": "2016-02-06T12:56:23.816Z","objectId": "0W7fyrzHUO"}]');
-    var todoTasks = JSON.parse('[{"createdAt": "2016-02-06T12:56:35.055Z", "done": false, "name": "pagar el banco", "updatedAt": "2016-02-06T12:56:37.047Z","objectId": "almSN8nIIh"},{"createdAt": "2016-02-06T12:56:21.610Z","done": false,"name": "hacer la compra","updatedAt": "2016-02-06T12:56:23.816Z","objectId": "0W7fyrzHUO"}]');
-
-    function getDoneTasks(){
-      return doneTasks;
+    function getTasks(){
+      var deferred = $q.defer();
+      $ionicLoading.show({ template: "Loading..." });
+      $http.get("http://mytasks.parseapp.com/task/list")
+           .success(function(data){
+             $ionicLoading.hide();
+             deferred.resolve(data);
+           }).error(function(){
+             console.log("Error while makin HTTP call.");
+             $ionicLoading.hide();
+             deferred.reject();
+           });
+      return deferred.promise;
     }
 
-    function getTodoTasks(){
-      return todoTasks;
+    function getDoneTasks(forceRefresh){
+      if(forceRefresh === "undefined") { forceRefresh = false; }
+
+      var deferred = $q.defer();
+
+      if(forceRefresh){
+        $ionicLoading.show({ template: "Loading..." });
+        $http.get("http://mytasks.parseapp.com/task/donelist")
+             .success(function(data){
+               $ionicLoading.hide();
+               deferred.resolve(data);
+             }).error(function(){
+               console.log("Error while makin HTTP call.");
+               $ionicLoading.hide();
+               deferred.reject();
+             });
+      }
+      return deferred.promise;
+    }
+
+    function getTodoTasks(forceRefresh){
+      if(forceRefresh === "undefined") { forceRefresh = false; }
+
+      var deferred = $q.defer();
+
+      if(forceRefresh){
+        $ionicLoading.show({ template: "Loading..." });
+        $http.get("http://mytasks.parseapp.com/task/todolist")
+             .success(function(data){
+               $ionicLoading.hide();
+               deferred.resolve(data);;
+             }).error(function(){
+               console.log("Error while makin HTTP call.");
+               $ionicLoading.hide();
+               deferred.reject();
+             });
+      }
+      return deferred.promise;
     }
 
     return{
+      getTasks: getTasks,
       getDoneTasks: getDoneTasks,
       getTodoTasks: getTodoTasks
     };
